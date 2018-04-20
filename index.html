@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BMI Berekenen</title>
+  </head>
+  <body>
+    <fieldset>
+      <legend>BMI calculator</legend>
+    <p>Geef uw lengte in centimeters</p>
+    <input type = 'number' id='lengte_cm' placeholder='180'><br>
+    <p>Geef uw gewicht in kilo</p>
+    <input type='number' id='gewicht' placeholder='65'>
+    <br>
+    <br>
+    <input type='button' id='submit' value="Bereken">
+    <div id='resultaat'>resultaat hier</div>
+  </fieldset>
+    <script>
+    let lengte = document.getElementById('lengte_cm');
+    let gewicht = document.getElementById('gewicht');
+
+    function ajax(gewicht, lengte)
+    {
+      let debug = true;
+      if(window.XMLHttpRequest)
+      {
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      let controlScript = "BMI.php";
+      let httpString = controlScript + "?gewicht=" + gewicht + "&lengte.cm=" + lengte;
+      let httpResponse = "";
+      if(debug) console.log(httpString);
+      xmlhttp.open("GET", httpString, true);
+      xmlhttp.send();
+      xmlhttp.onreadystatechange = function()
+      {
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+        {
+          if(debug) console.log("http response = " + xmlhttp.responseText);
+          httpResponse = xmlhttp.responseText;
+          document.getElementById('resultaat').innerHTML = httpResponse;
+        }
+      }
+    }
+
+    submit.addEventListener("click", ()=> {
+      ajax(gewicht.value, lengte.value);
+    });
+    </script>
+
+
+  </body>
+</html>
